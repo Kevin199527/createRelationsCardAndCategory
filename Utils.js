@@ -176,19 +176,6 @@ async function createRelationsCardAndCategory(event, strapi, entityName = "") {
   }
 }
 
-/*async function deleteManyEntriesIncludeLocalizationsAsync(event, strapi, entityName ="" ) {
-  console.log('================beforeDeleteMany====================');
-  console.log(event.params.where);
-  const entries = await strapi.db.query(`api::causa.causa`).findMany({
-    select: ['id','locale'],
-    where: event.params.where,
-  });
-  console.log('============ffff========================');
-  console.log(entries);
-  console.log('================ ====================');
-  //const { deleteEntryIncludeLocalizationsAsync } = require ( "../../../../Helpers/Utils.js");
-  //await deleteEntryIncludeLocalizationsAsync(event, strapi, "causa");
-}*/
 
 module.exports =  {
   getAvailableLocalesAsync, deleteEntryIncludeLocalizationsAsync,
