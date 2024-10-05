@@ -58,27 +58,33 @@ const getAvailableLocalesAsync = async (strapi) => {
  */
 async function deleteEntryIncludeLocalizationsAsync(event, strapi, entityName = "") {
   try {
+    // Busca a entrada principal com o ID fornecido pelo evento e popula suas localizações.
     const entry = await strapi.db.query(`api::${entityName}.${entityName}`).findOne({
-      select: ['id'],
-      where: { id: event.params.where.id },
-      populate: { localizations: true },
+      select: ['id'], // Seleciona apenas o campo 'id' da entrada principal.
+      where: { id: event.params.where.id }, // Busca a entrada com o id correspondente ao evento.
+      populate: { localizations: true }, // Carrega as localizações associadas à entrada principal.
     });
 
+    // Exibe a entrada encontrada e suas localizações no console.
     console.log(`========== api::${entityName}.${entityName} ==========`);
     console.log(entry);
 
+    // Exclui todas as localizações associadas à entrada principal.
     const deletedBefore = await strapi.db.query(`api::${entityName}.${entityName}`).deleteMany({
       where: {
-        id: { $in: entry.localizations.map((x) => x.id) },
+        id: { $in: entry.localizations.map((x) => x.id) }, // Mapeia os IDs das localizações e os utiliza para a exclusão.
       },
     });
 
+    // Exibe no console as localizações que foram excluídas.
     console.log("=========deletedBefore===========");
     console.log(deletedBefore);
   } catch (error) {
+    // Caso ocorra algum erro, exibe a mensagem de erro no console.
     console.log(`ERROR DELETE api::${entityName}.${entityName}`, error);
   }
 }
+
 ```
 
 #### `createEntryIncludeLocalizationsAsync`
